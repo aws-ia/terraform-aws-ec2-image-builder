@@ -1,0 +1,6 @@
+diff a/project/.project_automation/publication/entrypoint.sh b/project/.project_automation/publication/entrypoint.sh	(rejected hunks)
+@@ -6 +6,3 @@ PROJECT_PATH=${BASE_PATH}/project
+ PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
++
++terraform-docs --lockfile=false ./
+\ No newline at end of file

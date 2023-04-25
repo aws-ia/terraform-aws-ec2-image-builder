@@ -1,0 +1,8 @@
+diff a/project/.project_automation/publication/Dockerfile b/project/.project_automation/publication/Dockerfile	(rejected hunks)
+@@ -4 +4,5 @@ RUN pip install copier
+ RUN pip install bump2version
++
++ENV TERRAFORM_DOCS_VERSION=v0.16.0
++RUN wget https://github.com/terraform-docs/terraform-docs/releases/download/${TERRAFORM_DOCS_VERSION}/terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz && \
++    tar -C /usr/local/bin -xzf terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz && chmod +x /usr/local/bin/terraform-docs
+\ No newline at end of file
