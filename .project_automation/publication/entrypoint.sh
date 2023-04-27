@@ -18,6 +18,3 @@ else
   echo "creating new version"
   gh release create ${VERSION} --target ${BRANCH} --generate-notes
 fi
-
-aws sts get-caller-identity
-aws s3 ls s3://ia-prj-cfg-versions/
