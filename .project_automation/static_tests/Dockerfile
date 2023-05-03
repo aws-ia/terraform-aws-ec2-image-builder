@@ -21,3 +21,7 @@ RUN wget -O /tmp/tflint-ruleset-aws.zip https://github.com/terraform-linters/tfl
 RUN curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
 RUN gem install mdl
+
+ENV TERRAFORM_DOCS_VERSION=v0.16.0
+RUN wget https://github.com/terraform-docs/terraform-docs/releases/download/${TERRAFORM_DOCS_VERSION}/terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz && \
+    tar -C /usr/local/bin -xzf terraform-docs-${TERRAFORM_DOCS_VERSION}-linux-amd64.tar.gz && chmod +x /usr/local/bin/terraform-docs
