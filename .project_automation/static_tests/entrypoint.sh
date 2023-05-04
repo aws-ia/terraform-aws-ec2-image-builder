@@ -5,6 +5,8 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
+echo "Starting Static Tests"
+
 cd ${PROJECT_PATH}
 terraform init
 terraform validate
@@ -15,3 +17,7 @@ tflint
 tfsec .
 
 mdl .header.md
+
+terraform-docs --lockfile=false ./
+
+echo "End of Static Tests"
