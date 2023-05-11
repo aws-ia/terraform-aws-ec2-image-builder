@@ -3,6 +3,11 @@ variable "vpc_id" {
   description = "(Required) VPC ID to deploy the EC2 Image Builder Environment."
 }
 
+variable "aws_region" {
+  type        = string
+  description = "(Required) AWS Region to deploy the resources"
+}
+
 variable "subnet_id" {
   type        = string
   description = "(Required) Subnet ID to deploy the EC2 Image Builder Environment."
@@ -46,21 +51,25 @@ variable "instance_types" {
 variable "recipe_version" {
   type        = string
   description = "(Required) The semantic version of the image recipe. This version follows the semantic version syntax. e.g.: 0.0.1"
+  default     = "0.0.1"
 }
 
 variable "s3_bucket_name" {
   type        = string
   description = "(Required) S3 Bucket Name which will store EC2 Image Builder TOE logs and is storing the build/test YAML files"
+  default     = ""
 }
 
 variable "build_component_arn" {
   type        = list(string)
   description = "(Required) List of ARNs for the Build EC2 Image Builder Build Components"
+  default     = []
 }
 
 variable "test_component_arn" {
   type        = list(string)
   description = "(Required) List of ARNs for the Build EC2 Image Builder Test Components"
+  default     = []
 }
 
 variable "tags" {
@@ -84,11 +93,13 @@ variable "ami_regions_kms_key" {
 variable "source_cidr" {
   type        = list(string)
   description = "(Required) Source CIDR block which will be allowed to RDP or SSH to EC2 Image Builder Instances"
+  default     = []
 }
 
 variable "custom_policy_arn" {
   type        = string
   description = "(Optional) ARN of the custom policy to be attached to the EC2 Instance Profile"
+  default     = ""
 }
 
 variable "schedule_expression" {

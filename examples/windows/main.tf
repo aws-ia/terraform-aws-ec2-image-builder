@@ -10,7 +10,7 @@ data "aws_availability_zones" "available" {}
 locals {
   name            = "myfirstpipeline"
   vpc_cidr        = "10.0.0.0/16"
-  region          = "us-west-2"
+  aws_region      = "us-west-2"
   azs             = slice(data.aws_availability_zones.available.names, 0, 1)
   build_version   = "0.0.1"
   test_version    = "0.0.1"
@@ -28,6 +28,7 @@ module "ec2-image-builder" {
   #  source                = "aws-ia/ec2-image-builder/aws"
   source                = "../.."
   name                  = local.name
+  aws_region            = local.aws_region
   vpc_id                = module.vpc.vpc_id
   subnet_id             = module.vpc.private_subnets[0]
   source_cidr           = [local.vpc_cidr] #["<ENTER your IP here to access EC2 Image Builder Instances through RDP or SSH>]"
