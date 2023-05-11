@@ -12,7 +12,7 @@ RUN cd /tmp && \
 
 RUN mkdir -p ~/.tflint.d/plugins
 
-ENV TFLINT_VERSION=v0.22.1
+ENV TFLINT_VERSION=v0.23.0
 
 RUN wget -O /tmp/tflint-ruleset-aws.zip https://github.com/terraform-linters/tflint-ruleset-aws/releases/download/${TFLINT_VERSION}/tflint-ruleset-aws_darwin_arm64.zip \
   && unzip /tmp/tflint-ruleset-aws.zip -d ~/.tflint.d/plugins \
