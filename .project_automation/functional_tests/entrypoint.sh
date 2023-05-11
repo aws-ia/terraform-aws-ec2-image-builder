@@ -9,6 +9,13 @@ echo "Starting Funtional Tests"
 
 cd ${PROJECT_PATH}
 
+#********** Get TF-Vars ******************
+aws ssm get-parameter \
+    --name "/terraform-aws-ec2-image-builder" \
+    --with-decryption \
+    --query "Parameter.Value" \
+    --output "text" \
+    --region "us-east-1">>tf.auto.tfvars
 #********** Checkov Analysis *************
 echo "Running Checkov Analysis"
 terraform init
