@@ -66,14 +66,6 @@ module "ec2-image-builder" {
   #  "<ENTER TARGET AWS REGION TO SHARE THE AMI WITH>" = "<ENTER KMS KEYs TO ENCRYPT AMIs ON THE TARGET REGION>"
   #}
 
-
-  depends_on = [
-    aws_iam_policy.policy,
-    aws_imagebuilder_component.win2022build,
-    aws_imagebuilder_component.win2022test,
-    aws_s3_bucket.ec2_image_builder_components,
-    aws_s3_object.upload_scripts
-  ]
 }
 
 resource "aws_s3_object" "upload_scripts" {

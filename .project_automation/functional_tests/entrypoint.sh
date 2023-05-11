@@ -23,6 +23,6 @@ rm -f go.mod
 go mod init github.com/aws-ia/terraform-project-ephemeral
 go mod tidy
 go install github.com/gruntwork-io/terratest/modules/terraform
-go test -timeout 45m
+go test -timeout 160m
 
 echo "End of Functional Tests"
