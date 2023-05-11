@@ -6,6 +6,7 @@ variable "vpc_id" {
 variable "aws_region" {
   type        = string
   description = "(Required) AWS Region to deploy the resources"
+  default     = "us-east-1"
 }
 
 variable "subnet_id" {
