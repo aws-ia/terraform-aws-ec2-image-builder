@@ -6,7 +6,6 @@ variable "vpc_id" {
 variable "aws_region" {
   type        = string
   description = "(Required) AWS Region to deploy the resources"
-  default     = "us-east-1"
 }
 
 variable "subnet_id" {
@@ -100,7 +99,6 @@ variable "source_cidr" {
 variable "custom_policy_arn" {
   type        = string
   description = "(Optional) ARN of the custom policy to be attached to the EC2 Instance Profile"
-  default     = ""
 }
 
 variable "schedule_expression" {

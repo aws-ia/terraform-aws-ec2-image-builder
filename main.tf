@@ -121,6 +121,7 @@ resource "aws_iam_instance_profile" "iam_instance_profile" {
 }
 
 resource "aws_iam_role_policy_attachment" "custom_policy" {
+  count      = length(var.custom_policy_arn) > 0 ? 1 : 0
   policy_arn = var.custom_policy_arn
   role       = aws_iam_role.awsserviceroleforimagebuilder.name
 }
