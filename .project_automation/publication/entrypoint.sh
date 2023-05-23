@@ -4,6 +4,7 @@
 # managed and local tasks always use these variables for the project and project type path
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
+git config --global --add safe.directory ${PROJECT_PATH}
 
 echo "[STAGE: Publication]"
 VERSION=$(cat VERSION)
@@ -18,5 +19,3 @@ else
   echo "creating new version"
   gh release create ${VERSION} --target ${BRANCH} --generate-notes
 fi
-
-
