@@ -42,6 +42,7 @@ module "ec2-image-builder" {
   build_component_arn   = [aws_imagebuilder_component.win2022build.arn]
   test_component_arn    = [aws_imagebuilder_component.win2022test.arn]
   s3_bucket_name        = aws_s3_bucket.ec2_image_builder_components.id
+  attach_custom_policy  = true
   custom_policy_arn     = aws_iam_policy.policy.arn
   platform              = "Windows"
   tags                  = local.tags

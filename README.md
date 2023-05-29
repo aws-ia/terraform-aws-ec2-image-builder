@@ -125,15 +125,16 @@ No modules.
 | <a name="input_ami_description"></a> [ami\_description](#input\_ami\_description) | (Required) Choose a description for the AMI | `string` | n/a | yes |
 | <a name="input_ami_name"></a> [ami\_name](#input\_ami\_name) | (Required) Choose a name for the AMI | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | (Required) AWS Region to deploy the resources | `string` | n/a | yes |
-| <a name="input_custom_policy_arn"></a> [custom\_policy\_arn](#input\_custom\_policy\_arn) | (Optional) ARN of the custom policy to be attached to the EC2 Instance Profile | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | (Required) Choose a name for the project which will be the prefix for every resource | `string` | n/a | yes |
 | <a name="input_platform"></a> [platform](#input\_platform) | (Required) OS: Windows or Linux | `string` | n/a | yes |
 | <a name="input_source_ami_name"></a> [source\_ami\_name](#input\_source\_ami\_name) | (Required) Source AMI name, e.g: Windows\_Server-2022-English-Core-Base-* | `string` | n/a | yes |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | (Required) Subnet ID to deploy the EC2 Image Builder Environment. | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | (Required) VPC ID to deploy the EC2 Image Builder Environment. | `string` | n/a | yes |
 | <a name="input_ami_regions_kms_key"></a> [ami\_regions\_kms\_key](#input\_ami\_regions\_kms\_key) | (Optional) A list of AWS Regions to share the AMI with and also target KMS Key in each region | `map(string)` | `{}` | no |
+| <a name="input_attach_custom_policy"></a> [attach\_custom\_policy](#input\_attach\_custom\_policy) | (Required) Attach custom policy to the EC2 Instance Profile, if true, ARN of the custom policy needs to be specified on the variable custom\_policy\_arn | `bool` | `false` | no |
 | <a name="input_build_component_arn"></a> [build\_component\_arn](#input\_build\_component\_arn) | (Required) List of ARNs for the Build EC2 Image Builder Build Components | `list(string)` | `[]` | no |
 | <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | (Optional) Create security group for EC2 Image Builder instances | `bool` | `true` | no |
+| <a name="input_custom_policy_arn"></a> [custom\_policy\_arn](#input\_custom\_policy\_arn) | (Optional) ARN of the custom policy to be attached to the EC2 Instance Profile | `string` | `null` | no |
 | <a name="input_instance_key_pair"></a> [instance\_key\_pair](#input\_instance\_key\_pair) | (Optional) EC2 key pair to add to the default user on the builder(In case existent EC2 Key Pair is provided) | `string` | `null` | no |
 | <a name="input_instance_metadata_http_put_hop_limit"></a> [instance\_metadata\_http\_put\_hop\_limit](#input\_instance\_metadata\_http\_put\_hop\_limit) | The number of hops that an instance can traverse to reach its metadata. | `number` | `null` | no |
 | <a name="input_instance_metadata_http_tokens"></a> [instance\_metadata\_http\_tokens](#input\_instance\_metadata\_http\_tokens) | (Optional) Whether a signed token is required for instance metadata retrieval requests. Valid values: required, optional. | `string` | `"optional"` | no |

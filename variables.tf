@@ -96,9 +96,16 @@ variable "source_cidr" {
   default     = []
 }
 
+variable "attach_custom_policy" {
+  type        = bool
+  description = "(Required) Attach custom policy to the EC2 Instance Profile, if true, ARN of the custom policy needs to be specified on the variable custom_policy_arn"
+  default     = false
+}
+
 variable "custom_policy_arn" {
   type        = string
   description = "(Optional) ARN of the custom policy to be attached to the EC2 Instance Profile"
+  default     = null
 }
 
 variable "schedule_expression" {
