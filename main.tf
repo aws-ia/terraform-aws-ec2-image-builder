@@ -126,6 +126,7 @@ resource "aws_iam_role_policy_attachment" "custom_policy" {
   role       = aws_iam_role.awsserviceroleforimagebuilder.name
 }
 
+#checkov:skip=CKV_AWS_290:The policy must allow *
 resource "aws_iam_role_policy" "aws_policy" {
   name   = "${var.name}-aws-access"
   role   = aws_iam_role.awsserviceroleforimagebuilder.id
@@ -143,7 +144,8 @@ data "aws_iam_policy_document" "aws_policy" {
 
   statement {
     effect = "Allow"
-    #checkov:skip=CKV_AWS_111:The policy most allow *
+    #checkov:skip=CKV_AWS_111:The policy must allow *
+    #checkov:skip=CKV_AWS_290:The policy must allow *
     actions = [
       "ec2messages:GetMessages",
       "ec2:MetadataHttpEndpoint",
@@ -230,10 +232,13 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
 # ---------------------------------------------------------------------------------------------------------------------
 # EC2 Image Builder Image Recipe
 # ---------------------------------------------------------------------------------------------------------------------
+  
 resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
   name         = "${var.name}-image-recipe"
   parent_image = data.aws_ami.source_ami.id
   version      = var.recipe_version
+  
+  #checkov:skip=CKV_AWS_200:No EBS Volume has been specified
 
   lifecycle {
     create_before_destroy = true
