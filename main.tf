@@ -232,13 +232,29 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
 # ---------------------------------------------------------------------------------------------------------------------
 # EC2 Image Builder Image Recipe
 # ---------------------------------------------------------------------------------------------------------------------
-  
+
+resource "aws_kms_key" "imagebuilder_image_recipe_kms_key" {
+  description         = "Imagebuilder Image Recipe KMS key"
+  enable_key_rotation = true
+}
+
 resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
   name         = "${var.name}-image-recipe"
   parent_image = data.aws_ami.source_ami.id
   version      = var.recipe_version
   
-  #checkov:skip=CKV_AWS_200:No EBS Volume has been specified
+  # it seems there is a bug on checkov for check CKV_AWS_200, even supressing it doesn't help, had to add the below block_device_mapping to pass
+  block_device_mapping {
+    device_name = "/dev/xvdb"
+
+    ebs {
+      delete_on_termination = true
+      volume_size           = 100
+      volume_type           = "gp3"
+      encrypted             = true
+      kms_key_id            = aws_kms_key.imagebuilder_image_recipe_kms_key.arn
+    }
+  }
 
   lifecycle {
     create_before_destroy = true
