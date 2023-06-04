@@ -45,6 +45,7 @@ module "ec2-image-builder" {
   attach_custom_policy  = true
   custom_policy_arn     = aws_iam_policy.policy.arn
   platform              = "Windows"
+  imagebuilder_image_recipe_kms_key_arn = aws_kms_key.imagebuilder_image_recipe_kms_key.arn 
   tags                  = local.tags
 
   managed_components = [{
@@ -67,6 +68,11 @@ module "ec2-image-builder" {
   #  "<ENTER TARGET AWS REGION TO SHARE THE AMI WITH>" = "<ENTER KMS KEYs TO ENCRYPT AMIs ON THE TARGET REGION>"
   #}
 
+}
+
+resource "aws_kms_key" "imagebuilder_image_recipe_kms_key" {
+  description         = "Imagebuilder Image Recipe KMS key"
+  enable_key_rotation = true
 }
 
 resource "aws_s3_object" "upload_scripts" {

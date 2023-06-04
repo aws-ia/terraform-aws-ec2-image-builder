@@ -126,10 +126,11 @@ resource "aws_iam_role_policy_attachment" "custom_policy" {
   role       = aws_iam_role.awsserviceroleforimagebuilder.name
 }
 
-#checkov:skip=CKV_AWS_290:The policy must allow *
 resource "aws_iam_role_policy" "aws_policy" {
   name   = "${var.name}-aws-access"
   role   = aws_iam_role.awsserviceroleforimagebuilder.id
+  #checkov:skip=CKV_AWS_290:The policy must allow *
+  #checkov:skip=CKV_AWS_355:The policy must allow *
   policy = data.aws_iam_policy_document.aws_policy.json
 }
 
@@ -146,6 +147,7 @@ data "aws_iam_policy_document" "aws_policy" {
     effect = "Allow"
     #checkov:skip=CKV_AWS_111:The policy must allow *
     #checkov:skip=CKV_AWS_290:The policy must allow *
+    #checkov:skip=CKV_AWS_355:The policy must allow *
     actions = [
       "ec2messages:GetMessages",
       "ec2:MetadataHttpEndpoint",
@@ -233,10 +235,7 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
 # EC2 Image Builder Image Recipe
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource "aws_kms_key" "imagebuilder_image_recipe_kms_key" {
-  description         = "Imagebuilder Image Recipe KMS key"
-  enable_key_rotation = true
-}
+
 
 resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
   name         = "${var.name}-image-recipe"
@@ -249,10 +248,10 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
 
     ebs {
       delete_on_termination = true
-      volume_size           = 100
-      volume_type           = "gp3"
+      volume_size           = var.recipe_volume_size
+      volume_type           = var.recipe_volume_type
       encrypted             = true
-      kms_key_id            = aws_kms_key.imagebuilder_image_recipe_kms_key.arn
+      kms_key_id            = var.imagebuilder_image_recipe_kms_key_arn
     }
   }
 

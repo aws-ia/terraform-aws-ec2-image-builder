@@ -147,6 +147,13 @@ variable "platform" {
   }
 }
 
+
+variable "imagebuilder_image_recipe_kms_key_arn" {
+  default     = null
+  description = "(Required) KMS Key ARN(CMK) for encrypting Imagebuilder Image Recipe Block Device Mapping"
+  type        = string
+}
+
 variable "instance_metadata_http_put_hop_limit" {
   default     = null
   description = "The number of hops that an instance can traverse to reach its metadata."
@@ -180,5 +187,17 @@ variable "security_group_ids" {
 variable "instance_key_pair" {
   default     = null
   description = "(Optional) EC2 key pair to add to the default user on the builder(In case existent EC2 Key Pair is provided)"
+  type        = string
+}
+
+variable "recipe_volume_size" {
+  default     = 100
+  description = "(Optional) Volume Size of Imagebuilder Image Recipe Block Device Mapping"
+  type        = string
+}
+
+variable "recipe_volume_type" {
+  default     = "gp3"
+  description = "(Optional) Volume Type of Imagebuilder Image Recipe Block Device Mapping"
   type        = string
 }
