@@ -8,7 +8,7 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
-  name            = "myfirstpipeline"
+  name            = "windowsexample"
   vpc_cidr        = "10.0.0.0/16"
   aws_region      = "us-west-2"
   azs             = slice(data.aws_availability_zones.available.names, 0, 1)
