@@ -1,0 +1,45 @@
+name: Test
+description: 'This document will perform the test using Pester Scripts'
+schemaVersion: 1.0
+parameters:
+  - S3BucketName:
+      type: string
+      description: S3 Bucket Name where the scripts are located
+phases:
+  - name: test
+    steps:
+      - name: CreatingScriptsFolder
+        action: CreateFolder
+        inputs:
+          - path: C:\temp
+
+      - name: CreatingTestsFolder
+        action: CreateFolder
+        inputs:
+          - path: C:\temp\tests
+
+      - name: DownloadScripts
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - source: 's3://{{ S3BucketName }}/scripts/*'
+            destination: C:\temp
+
+      - name: DownloadTestScripts
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - source: 's3://{{ S3BucketName }}/scripts/tests/*'
+            destination: C:\temp\tests
+
+      - name: run-tests
+        action: ExecutePowerShell
+        timeoutSeconds: 300
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          file: C:\temp\tests\run-tests.ps1

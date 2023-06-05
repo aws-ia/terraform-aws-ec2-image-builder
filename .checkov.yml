@@ -1,4 +1,4 @@
-download-external-modules: False
+download-external-modules: True
 evaluate-variables: true
 file:
 - 'tf.json'
