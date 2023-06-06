@@ -5,6 +5,10 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 git config --global --add safe.directory ${PROJECT_PATH}
+<<<<<<< before updating
+=======
+
+>>>>>>> after updating
 echo "Starting Static Tests"
 
 cd ${PROJECT_PATH}
