@@ -5,7 +5,7 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
-echo "Starting Funtional Tests"
+echo "Starting Functional Tests"
 
 cd ${PROJECT_PATH}
 
