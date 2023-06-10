@@ -26,27 +26,27 @@ locals {
 
 module "ec2-image-builder" {
   #  source                = "aws-ia/ec2-image-builder/aws"
-  source                = "../.."
-  name                  = local.name
-  aws_region            = local.aws_region
-  vpc_id                = module.vpc.vpc_id
-  subnet_id             = module.vpc.private_subnets[0]
-  source_cidr           = [local.vpc_cidr] #["<ENTER your IP here to access EC2 Image Builder Instances through RDP or SSH>]"
-  create_security_group = true
-  instance_types        = ["c5.large"]
-  instance_key_pair     = aws_key_pair.imagebuilder.key_name
-  source_ami_name       = "Windows_Server-2022-English-Core-Base-*"
-  ami_name              = "Windows 2022 core AMI"
-  ami_description       = "Windows 2022 core AMI provided by AWS"
-  recipe_version        = "0.0.1"
-  build_component_arn   = [aws_imagebuilder_component.win2022build.arn]
-  test_component_arn    = [aws_imagebuilder_component.win2022test.arn]
-  s3_bucket_name        = aws_s3_bucket.ec2_image_builder_components.id
-  attach_custom_policy  = true
-  custom_policy_arn     = aws_iam_policy.policy.arn
-  platform              = "Windows"
-  imagebuilder_image_recipe_kms_key_arn = aws_kms_key.imagebuilder_image_recipe_kms_key.arn 
-  tags                  = local.tags
+  source                                = "../.."
+  name                                  = local.name
+  aws_region                            = local.aws_region
+  vpc_id                                = module.vpc.vpc_id
+  subnet_id                             = module.vpc.private_subnets[0]
+  source_cidr                           = [local.vpc_cidr] #["<ENTER your IP here to access EC2 Image Builder Instances through RDP or SSH>]"
+  create_security_group                 = true
+  instance_types                        = ["c5.large"]
+  instance_key_pair                     = aws_key_pair.imagebuilder.key_name
+  source_ami_name                       = "Windows_Server-2022-English-Core-Base-*"
+  ami_name                              = "Windows 2022 core AMI"
+  ami_description                       = "Windows 2022 core AMI provided by AWS"
+  recipe_version                        = "0.0.1"
+  build_component_arn                   = [aws_imagebuilder_component.win2022build.arn]
+  test_component_arn                    = [aws_imagebuilder_component.win2022test.arn]
+  s3_bucket_name                        = aws_s3_bucket.ec2_image_builder_components.id
+  attach_custom_policy                  = true
+  custom_policy_arn                     = aws_iam_policy.policy.arn
+  platform                              = "Windows"
+  imagebuilder_image_recipe_kms_key_arn = aws_kms_key.imagebuilder_image_recipe_kms_key.arn
+  tags                                  = local.tags
 
   managed_components = [{
     name    = "powershell-windows",
@@ -196,7 +196,19 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
         "${aws_s3_bucket.ec2_image_builder_components.arn}",
         "${aws_s3_bucket.ec2_image_builder_components.arn}/*"
       ]
-    }
+    },
+    {
+  "Sid": "Deny non-HTTPS access",
+  "Effect": "Deny",
+  "Principal": "*",
+  "Action": [ "s3:*" ],
+  "Resource": "${aws_s3_bucket.ec2_image_builder_components.arn}/*",
+  "Condition": {
+    "Bool": {
+      "aws:SecureTransport": "false"
+            }
+      }
+  }
   ]
 }
 EOF
