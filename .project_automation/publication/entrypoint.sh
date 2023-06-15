@@ -18,5 +18,3 @@ else
   echo "creating new version"
   gh release create ${VERSION} --target ${BRANCH} --generate-notes
 fi
-
-
