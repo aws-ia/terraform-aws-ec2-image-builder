@@ -129,9 +129,12 @@ resource "aws_iam_role_policy_attachment" "custom_policy" {
 resource "aws_iam_role_policy" "aws_policy" {
   name   = "${var.name}-aws-access"
   role   = aws_iam_role.awsserviceroleforimagebuilder.id
+  #checkov:skip=CKV_AWS_290:The policy must allow *
+  #checkov:skip=CKV_AWS_355:The policy must allow *
   policy = data.aws_iam_policy_document.aws_policy.json
 }
 
+#tfsec:ignore:aws-iam-no-policy-wildcards
 data "aws_iam_policy_document" "aws_policy" {
 
   statement {
