@@ -154,18 +154,6 @@ variable "imagebuilder_image_recipe_kms_key_arn" {
   type        = string
 }
 
-variable "instance_metadata_http_put_hop_limit" {
-  default     = null
-  description = "The number of hops that an instance can traverse to reach its metadata."
-  type        = number
-}
-
-variable "instance_metadata_http_tokens" {
-  default     = "optional"
-  description = "(Optional) Whether a signed token is required for instance metadata retrieval requests. Valid values: required, optional."
-  type        = string
-}
-
 variable "terminate_on_failure" {
   default     = true
   description = "(Optional) Change to false if you want to connect to a builder for debugging after failure"
@@ -173,7 +161,7 @@ variable "terminate_on_failure" {
 }
 
 variable "create_security_group" {
-  description = "(Optional) Create security group for EC2 Image Builder instances"
+  description = "(Optional) Create security group for EC2 Image Builder instances. Please note this security group will be created with default egress rule to 0.0.0.0/0 CIDR Block. In case you want to have a more restrict set of rules, please provide your own security group id on security_group_ids variable"
   type        = bool
   default     = true
 }
