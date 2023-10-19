@@ -143,21 +143,6 @@ data "aws_iam_policy_document" "aws_policy" {
     resources = ["arn:aws:iam::*:role/EC2ImageBuilderDistributionCrossAccountRole"]
   }
 
-  statement {
-    effect = "Allow"
-    #checkov:skip=CKV_AWS_111:The policy must allow *
-    #checkov:skip=CKV_AWS_290:The policy must allow *
-    #checkov:skip=CKV_AWS_355:The policy must allow *
-    actions = [
-      "ec2messages:GetMessages",
-      "ec2:MetadataHttpEndpoint",
-      "ec2:MetadataHttpPutResponseHopLimit",
-      "ec2:MetadataHttpTokens",
-      "ssm:SendCommand"
-    ]
-    resources = ["*"]
-  }
-
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -175,8 +160,8 @@ resource "aws_imagebuilder_infrastructure_configuration" "imagebuilder_infrastru
   subnet_id          = var.subnet_id
 
   instance_metadata_options {
-    http_tokens                 = var.instance_metadata_http_tokens
-    http_put_response_hop_limit = var.instance_metadata_http_put_hop_limit
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 2
   }
 
   terminate_instance_on_failure = var.terminate_on_failure
