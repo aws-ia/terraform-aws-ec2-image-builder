@@ -5,10 +5,11 @@
 PROJECT_PATH=${BASE_PATH}/project
 PROJECT_TYPE_PATH=${BASE_PATH}/projecttype
 
-echo "Starting Funtional Tests"
+echo "Starting Functional Tests"
 
 cd ${PROJECT_PATH}
 
+<<<<<<< before updating
 #********** Get TF-Vars ******************
 aws ssm get-parameter \
     --name "/terraform-aws-ec2-image-builder" \
@@ -23,6 +24,8 @@ terraform plan -out tf.plan
 terraform show -json tf.plan  > tf.json 
 checkov 
 
+=======
+>>>>>>> after updating
 #********** Terratest execution **********
 echo "Running Terratest"
 cd test
