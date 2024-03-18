@@ -10,7 +10,7 @@ repos:
     hooks:
       - id: terraform-docs-go
         args: 
-          - "--config=.terraform-docs.yaml"
+          - "--config=.config/.terraform-docs.yaml"
           - "--lockfile=false"
           - "--recursive"
           - "--recursive-path=examples/"
