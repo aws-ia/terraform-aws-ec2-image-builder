@@ -1,11 +1,11 @@
 <!-- BEGIN_TF_DOCS -->
 
-# Using the EC2 Image Builder Terraform Module to create an Windows AMI
+# Using the EC2 Image Builder Terraform Module to create an Linux AMI
 
-This example will use the EC2 Image Builder Terraform Module to create an Windows 2022 Core AMI.
+This example will use the EC2 Image Builder Terraform Module to create an Amazon Linux 2023 Custom AMI.
 
-The build components are currently all in a single file: win2022build.yaml
-The tests components are currently all in a single file: win2022test.yaml
+The build components are currently all in a single file: linuxbuild.yaml
+The tests components are currently all in a single file: linuxtest.yaml
 
 However the module supports providing multiple files, given the parameters build\_component\_arn and test\_component\_arn are of list of strings type.
 
@@ -42,7 +42,7 @@ git clone https://github.com/aws-ia/terraform-aws-ec2-image-builder.git
 Initialize a working directory with configuration files
 
 ```sh
-cd examples/windows/
+cd examples/linux/
 terraform init
 ```
 
@@ -68,12 +68,12 @@ Enter `yes` to apply.
 Output of Terraform apply should look similar
 
 ```
-module.ec2-image-builder.aws_imagebuilder_image.imagebuilder_image[0]: Creation complete after 1h3m56s [id=arn:aws:imagebuilder:ap-southeast-2:XXXXXXXX:image/myfirstpipeline-image-recipe/0.0.2/1]
+module.ec2-image-builder.aws_imagebuilder_image_recipe.imagebuilder_image_recipe (deposed object 3e1e6f85): Destroying... [id=arn:aws:imagebuilder:us-west-2:XXXXX:image-recipe/linuxexample-image-recipe/0.0.2]
 ```
 
 Login to AWS Console, go to the AWS Region where resources are deployed, and go to the location showed on the Terraform output, for example:
 
-EC2 Image Builder > Images > myfirstpipeline-image-recipe | 0.0.2 > myfirstpipeline-image-recipe | 0.0.2/1
+EC2 Image Builder > Images > linuxexample-image-recipe| 0.0.2 > linuxexample-image-recipe | 0.0.2/1
 
 You can see the AMI ID on the output resources:
 

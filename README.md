@@ -45,8 +45,8 @@ module "ec2-image-builder" {
   managed_components = "<ENTER_LIST OF AWS MANAGED COMPONENTS>"
   # e.g.:
   #managed_components = [{
-  #  name    = "powershell-windows",
-  #  version = "7.2.10"
+  #  name    = "powershell-lts-windows",
+  #  version = "7.4.0"
   #  },
   #  {
   #    name    = "chocolatey",
