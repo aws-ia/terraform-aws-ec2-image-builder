@@ -68,12 +68,12 @@ Enter `yes` to apply.
 Output of Terraform apply should look similar
 
 ```
-module.ec2-image-builder.aws_imagebuilder_image_recipe.imagebuilder_image_recipe (deposed object 3e1e6f85): Destroying... [id=arn:aws:imagebuilder:us-west-2:XXXXX:image-recipe/linuxexample-image-recipe/0.0.2]
+module.ec2-image-builder.aws_imagebuilder_image.imagebuilder_image[0]: Creation complete after 1h3m56s [id=arn:aws:imagebuilder:ap-southeast-2:XXXXXXXX:image/myfirstpipeline-image-recipe/0.0.2/1]
 ```
 
 Login to AWS Console, go to the AWS Region where resources are deployed, and go to the location showed on the Terraform output, for example:
 
-EC2 Image Builder > Images > linuxexample-image-recipe| 0.0.2 > linuxexample-image-recipe | 0.0.2/1
+EC2 Image Builder > Images > myfirstpipeline-image-recipe | 0.0.2 > myfirstpipeline-image-recipe | 0.0.2/1
 
 You can see the AMI ID on the output resources:
 

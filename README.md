@@ -45,8 +45,8 @@ module "ec2-image-builder" {
   managed_components = "<ENTER_LIST OF AWS MANAGED COMPONENTS>"
   # e.g.:
   #managed_components = [{
-  #  name    = "powershell-lts-windows",
-  #  version = "7.4.0"
+  #  name    = "powershell-windows",
+  #  version = "7.2.10"
   #  },
   #  {
   #    name    = "chocolatey",
@@ -77,13 +77,16 @@ Apache-2.0 Licensed. See [LICENSE](https://github.com/aws-ia/terraform-aws-ec2-i
 
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
 
 ## Modules
 
