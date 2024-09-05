@@ -1,11 +1,20 @@
 <!-- BEGIN_TF_DOCS -->
 
+<<<<<<< HEAD
 # Using the EC2 Image Builder Terraform Module to create an Linux AMI
 
 This example will use the EC2 Image Builder Terraform Module to create an Amazon Linux 2023 Custom AMI.
 
 The build components are currently all in a single file: linuxbuild.yaml
 The tests components are currently all in a single file: linuxtest.yaml
+=======
+# Using the EC2 Image Builder Terraform Module to create an Windows AMI
+
+This example will use the EC2 Image Builder Terraform Module to create an Windows 2022 Core AMI.
+
+The build components are currently all in a single file: win2022build.yaml
+The tests components are currently all in a single file: win2022test.yaml
+>>>>>>> 748f378 (add linux example + overall enhancements)
 
 However the module supports providing multiple files, given the parameters build\_component\_arn and test\_component\_arn are of list of strings type.
 
@@ -42,7 +51,11 @@ git clone https://github.com/aws-ia/terraform-aws-ec2-image-builder.git
 Initialize a working directory with configuration files
 
 ```sh
+<<<<<<< HEAD
 cd examples/linux/
+=======
+cd examples/windows/
+>>>>>>> 748f378 (add linux example + overall enhancements)
 terraform init
 ```
 
