@@ -6,9 +6,15 @@ terraform {
     awscc = {
       source  = "hashicorp/awscc"
     }
+    tls = {
+      source  = "hashicorp/tls"
+    }
+    random = {
+      source  = "hashicorp/random"
+    }
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = local.aws_region
 }

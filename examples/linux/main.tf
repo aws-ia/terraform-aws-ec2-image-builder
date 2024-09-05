@@ -8,14 +8,14 @@ data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 
 locals {
-  name            = "windowsexample"
+  name            = "linuxexample"
   vpc_cidr        = "10.0.0.0/16"
   aws_region      = "us-west-2"
   azs             = slice(data.aws_availability_zones.available.names, 0, 1)
   build_version   = "0.0.1"
   test_version    = "0.0.1"
-  build_file_name = "win2022build.yaml"
-  test_file_name  = "win2022test.yaml"
+  build_file_name = "linuxbuild.yaml"
+  test_file_name  = "linuxtest.yaml"
   tags = {
     #description = "Tags applied to the role and AWS Resources"
     created-by         = "Terraform"
@@ -35,25 +35,25 @@ module "ec2-image-builder" {
   create_security_group                 = true
   instance_types                        = ["c5.large"]
   instance_key_pair                     = aws_key_pair.imagebuilder.key_name
-  source_ami_name                       = "Windows_Server-2022-English-Core-Base-*"
-  ami_name                              = "Windows 2022 core AMI"
-  ami_description                       = "Windows 2022 core AMI provided by AWS"
+  source_ami_name                       = "al2023-ami-2023.5.20240903.0-kernel-6.1-x86_64"
+  ami_name                              = "Amazon Linux 2023 AMI"
+  ami_description                       = "Amazon Linux 2023 AMI provided by AWS"
   recipe_version                        = "0.0.1"
-  build_component_arn                   = [aws_imagebuilder_component.win2022build.arn]
-  test_component_arn                    = [aws_imagebuilder_component.win2022test.arn]
+  build_component_arn                   = [aws_imagebuilder_component.linuxbuild.arn]
+  test_component_arn                    = [aws_imagebuilder_component.linuxtest.arn]
   s3_bucket_name                        = aws_s3_bucket.ec2_image_builder_components.id
   attach_custom_policy                  = true
   custom_policy_arn                     = aws_iam_policy.policy.arn
-  platform                              = "Windows"
+  platform                              = "Linux"
   imagebuilder_image_recipe_kms_key_arn = aws_kms_key.imagebuilder_image_recipe_kms_key.arn
   tags                                  = local.tags
 
   managed_components = [{
-    name    = "powershell-lts-windows",
-    version = "7.4.0"
+    name    = "amazon-cloudwatch-agent-linux",
+    version = "1.0.1"
     },
     {
-      name    = "chocolatey",
+      name    = "hello-world-linux",
       version = "1.0.0"
   }]
 
@@ -90,24 +90,24 @@ resource "aws_kms_key" "aws_imagebuilder_component_kms_key" {
   enable_key_rotation = true
 }
 
-resource "aws_imagebuilder_component" "win2022build" {
+resource "aws_imagebuilder_component" "linuxbuild" {
 
-  name       = "win2022build"
+  name       = "linuxbuild"
   version    = local.build_version
   kms_key_id = aws_kms_key.aws_imagebuilder_component_kms_key.arn
-  platform   = "Windows"
+  platform   = "Linux"
   uri        = "s3://${aws_s3_bucket.ec2_image_builder_components.id}/${local.build_file_name}"
 
   lifecycle {
     create_before_destroy = true
   }
   depends_on = [
-    aws_s3_object.win2022build
+    aws_s3_object.linuxbuild
   ]
   tags = local.tags
 }
 
-resource "aws_s3_object" "win2022build" {
+resource "aws_s3_object" "linuxbuild" {
   bucket = aws_s3_bucket.ec2_image_builder_components.id
   key    = local.build_file_name
   source = local.build_file_name
@@ -115,12 +115,12 @@ resource "aws_s3_object" "win2022build" {
   tags   = local.tags
 }
 
-resource "aws_imagebuilder_component" "win2022test" {
+resource "aws_imagebuilder_component" "linuxtest" {
 
-  name       = "win2022test"
+  name       = "linuxtest"
   version    = local.test_version
   kms_key_id = aws_kms_key.aws_imagebuilder_component_kms_key.arn
-  platform   = "Windows"
+  platform   = "Linux"
   uri        = "s3://${aws_s3_bucket.ec2_image_builder_components.id}/${local.test_file_name}"
 
   lifecycle {
@@ -128,11 +128,11 @@ resource "aws_imagebuilder_component" "win2022test" {
   }
 
   depends_on = [
-    aws_s3_object.win2022test
+    aws_s3_object.linuxtest
   ]
 }
 
-resource "aws_s3_object" "win2022test" {
+resource "aws_s3_object" "linuxtest" {
   bucket = aws_s3_bucket.ec2_image_builder_components.id
   key    = local.test_file_name
   source = local.test_file_name
@@ -142,7 +142,7 @@ resource "aws_s3_object" "win2022test" {
 
 resource "aws_iam_policy" "policy" {
 
-  name        = "custom_policy_windows"
+  name        = "custom_policy_linux"
   path        = "/"
   description = "My custom policy"
   policy      = data.aws_iam_policy_document.iam_policy_document.json
@@ -312,7 +312,7 @@ resource "aws_ssm_parameter" "imagebuilder_ssh_public_key_openssh" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   name = local.name
   cidr = local.vpc_cidr

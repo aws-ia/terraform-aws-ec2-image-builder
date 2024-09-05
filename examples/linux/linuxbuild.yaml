@@ -1,0 +1,41 @@
+name: Build
+description: 'This document will install all available Windows updates ane run a sample shell hello-world.'
+schemaVersion: 1.0
+parameters:
+  - S3BucketName:
+      type: string
+      description: S3 Bucket Name where the scripts are located
+phases:
+  - name: build
+    steps:
+      - name: CreatingTempFolder
+        action: CreateFolder
+        inputs:
+          - path: /temp
+      
+      - name: DownloadScripts
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - source: 's3://{{ S3BucketName }}/scripts/*'
+            destination: /temp
+
+      - name: RunScript
+        action: ExecuteBash
+        timeoutSeconds: 120
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          commands: 
+          - |
+            bash /temp/HelloWorld.sh
+
+      - name: InstallLinuxUpdates
+        action: UpdateOS
+
+      - name: RebootAfterConfigApplied
+        action: Reboot
+        inputs:
+          delaySeconds: 60

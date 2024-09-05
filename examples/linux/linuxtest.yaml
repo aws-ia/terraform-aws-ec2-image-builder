@@ -1,0 +1,47 @@
+name: Test
+description: 'This document will perform the test using shell script'
+schemaVersion: 1.0
+parameters:
+  - S3BucketName:
+      type: string
+      description: S3 Bucket Name where the scripts are located
+phases:
+  - name: test
+    steps:
+      - name: CreatingScriptsFolder
+        action: CreateFolder
+        inputs:
+          - path: /temp
+
+      - name: CreatingTestsFolder
+        action: CreateFolder
+        inputs:
+          - path: /temp/tests
+
+      - name: DownloadScripts
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - source: 's3://{{ S3BucketName }}/scripts/*'
+            destination: /temp
+
+      - name: DownloadTestScripts
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - source: 's3://{{ S3BucketName }}/scripts/tests/*'
+            destination: /temp/tests
+
+      - name: RunTests
+        action: ExecuteBash
+        timeoutSeconds: 300
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          commands: 
+          - |
+            bash /temp/tests/run-tests.sh
