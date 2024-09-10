@@ -11,7 +11,7 @@ cd ${PROJECT_PATH}
 
 #********** Get TF-Vars ******************
 aws ssm get-parameter \
-    --name "/terraform-aws-ec2-image-builder" \
+    --name "/terraform-aws-ec2-image-builder-windows" \
     --with-decryption \
     --query "Parameter.Value" \
     --output "text" \
@@ -25,7 +25,30 @@ checkov
 
 #********** Terratest execution **********
 echo "Running Terratest"
-cd test
+cd test/windows
+rm -f go.mod
+go mod init github.com/aws-ia/terraform-project-ephemeral
+go mod tidy
+go install github.com/gruntwork-io/terratest/modules/terraform
+go test -timeout 160m
+
+#********** Get TF-Vars ******************
+aws ssm get-parameter \
+    --name "/terraform-aws-ec2-image-builder-linux" \
+    --with-decryption \
+    --query "Parameter.Value" \
+    --output "text" \
+    --region "us-east-1">>tf.auto.tfvars
+#********** Checkov Analysis *************
+echo "Running Checkov Analysis"
+terraform init
+terraform plan -out tf.plan
+terraform show -json tf.plan  > tf.json 
+checkov 
+
+#********** Terratest execution **********
+echo "Running Terratest"
+cd test/linux
 rm -f go.mod
 go mod init github.com/aws-ia/terraform-project-ephemeral
 go mod tidy
