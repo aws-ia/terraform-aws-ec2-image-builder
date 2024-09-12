@@ -6,10 +6,10 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-func TestExamplesBasic(t *testing.T) {
+func Windows(t *testing.T) {
 
 	terraformOptions := &terraform.Options{
-		TerraformDir: "../examples/windows",
+		TerraformDir: "../../examples/windows",
 		// Vars: map[string]interface{}{
 		// 	"myvar":     "test",
 		// 	"mylistvar": []string{"list_item_1"},
