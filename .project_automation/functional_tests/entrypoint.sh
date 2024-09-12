@@ -23,6 +23,7 @@ terraform plan -out tf.plan
 terraform show -json tf.plan  > tf.json 
 checkov 
 
+
 #********** Terratest execution **********
 echo "Running Terratest"
 cd test/windows
