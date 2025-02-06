@@ -73,6 +73,23 @@ module "ec2-image-builder" {
 resource "aws_kms_key" "imagebuilder_image_recipe_kms_key" {
   description         = "Imagebuilder Image Recipe KMS key"
   enable_key_rotation = true
+  policy              = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "default",
+    "Statement": [
+      {
+        "Sid": "DefaultAllow",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action": "kms:*",
+        "Resource": "*"
+      }
+    ]
+  }
+POLICY
 }
 
 resource "aws_s3_object" "upload_scripts" {
@@ -88,6 +105,23 @@ resource "aws_s3_object" "upload_scripts" {
 resource "aws_kms_key" "aws_imagebuilder_component_kms_key" {
   description         = "Imagebuilder Component KMS key"
   enable_key_rotation = true
+  policy              = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "default",
+    "Statement": [
+      {
+        "Sid": "DefaultAllow",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action": "kms:*",
+        "Resource": "*"
+      }
+    ]
+  }
+POLICY
 }
 
 resource "aws_imagebuilder_component" "win2022build" {
@@ -220,6 +254,23 @@ resource "random_uuid" "random_uuid" {
 resource "aws_kms_key" "aws_s3_bucket_kms_key" {
   description         = "S3 Bucket KMS key"
   enable_key_rotation = true
+  policy              = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "default",
+    "Statement": [
+      {
+        "Sid": "DefaultAllow",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action": "kms:*",
+        "Resource": "*"
+      }
+    ]
+  }
+POLICY
 }
 
 #tfsec:ignore:aws-s3-enable-bucket-logging
@@ -274,6 +325,23 @@ resource "aws_s3_bucket_public_access_block" "block_public_access" {
 resource "aws_kms_key" "aws_ssm_parameter_kms_key" {
   description         = "SSM Parameter KMS key"
   enable_key_rotation = true
+  policy              = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "default",
+    "Statement": [
+      {
+        "Sid": "DefaultAllow",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action": "kms:*",
+        "Resource": "*"
+      }
+    ]
+  }
+POLICY
 }
 
 resource "tls_private_key" "imagebuilder" {
