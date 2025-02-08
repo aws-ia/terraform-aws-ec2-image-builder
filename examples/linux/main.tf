@@ -93,7 +93,7 @@ POLICY
 }
 
 resource "aws_s3_object" "upload_scripts" {
-  for_each = fileset("./scripts/", "**/*")
+  for_each = fileset("${path.module}/scripts/", "**/*")
 
   bucket = aws_s3_bucket.ec2_image_builder_components.id
   key    = "./scripts/${each.value}"
