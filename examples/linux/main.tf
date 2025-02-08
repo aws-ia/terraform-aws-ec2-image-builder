@@ -35,7 +35,7 @@ module "ec2-image-builder" {
   create_security_group                 = true
   instance_types                        = ["c5.large"]
   instance_key_pair                     = aws_key_pair.imagebuilder.key_name
-  source_ami_name                       = "al2023-ami-2023.5.20240903.0-kernel-6.1-x86_64"
+  source_ami_name                       = "al2023-ami-2023.6.20250203.1-kernel-6.1-x86_64"
   ami_name                              = "Amazon Linux 2023 AMI"
   ami_description                       = "Amazon Linux 2023 AMI provided by AWS"
   recipe_version                        = "0.0.1"
