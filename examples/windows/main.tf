@@ -96,9 +96,9 @@ resource "aws_s3_object" "upload_scripts" {
   for_each = fileset("./scripts/", "**/*")
 
   bucket = aws_s3_bucket.ec2_image_builder_components.id
-  key    = "./scripts/${each.value}"
-  source = "./scripts/${each.value}"
-  etag   = filemd5("./scripts/${each.value}")
+  key    = "/scripts/${each.value}"
+  source = "${path.module}/scripts/${each.value}"
+  etag   = filemd5("${path.module}/scripts/${each.value}")
   tags   = local.tags
 }
 
