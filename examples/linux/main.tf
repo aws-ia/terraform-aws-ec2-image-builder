@@ -144,7 +144,7 @@ resource "aws_imagebuilder_component" "linuxbuild" {
 resource "aws_s3_object" "linuxbuild" {
   bucket = aws_s3_bucket.ec2_image_builder_components.id
   key    = local.build_file_name
-  source = local.build_file_name
+  source = "${path.module}/${local.build_file_name}"
   etag   = filemd5("${path.module}/${local.build_file_name}")
   tags   = local.tags
 }
@@ -169,7 +169,7 @@ resource "aws_imagebuilder_component" "linuxtest" {
 resource "aws_s3_object" "linuxtest" {
   bucket = aws_s3_bucket.ec2_image_builder_components.id
   key    = local.test_file_name
-  source = local.test_file_name
+  source = "${path.module}/${local.test_file_name}"
   etag   = filemd5("${path.module}/${local.test_file_name}")
   tags   = local.tags
 }
