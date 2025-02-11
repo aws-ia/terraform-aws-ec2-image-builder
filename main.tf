@@ -127,8 +127,8 @@ resource "aws_iam_role_policy_attachment" "custom_policy" {
 }
 
 resource "aws_iam_role_policy" "aws_policy" {
-  name   = "${var.name}-aws-access"
-  role   = aws_iam_role.awsserviceroleforimagebuilder.id
+  name = "${var.name}-aws-access"
+  role = aws_iam_role.awsserviceroleforimagebuilder.id
   #checkov:skip=CKV_AWS_290:The policy must allow *
   #checkov:skip=CKV_AWS_355:The policy must allow *
   policy = data.aws_iam_policy_document.aws_policy.json
@@ -226,7 +226,7 @@ resource "aws_imagebuilder_image_recipe" "imagebuilder_image_recipe" {
   name         = "${var.name}-image-recipe"
   parent_image = data.aws_ami.source_ami.id
   version      = var.recipe_version
-  
+
   # it seems there is a bug on checkov for check CKV_AWS_200, even supressing it doesn't help, had to add the below block_device_mapping to pass
   block_device_mapping {
     device_name = "/dev/xvdb"

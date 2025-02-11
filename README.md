@@ -22,7 +22,7 @@ The following is a basic example, see examples folder for more complete examples
 
 ```hcl
 module "ec2-image-builder" {
-  source                = "aws-ia/ec2-image-builder/aws"
+  source              = "aws-ia/ec2-image-builder/aws"
   name                = "basic-ec2-image"
   vpc_id              = "<ENTER_VPC_ID>"
   subnet_id           = "<ENTER_SUBNET_ID>"
