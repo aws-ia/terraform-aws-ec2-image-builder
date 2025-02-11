@@ -30,7 +30,7 @@ It is a best practice to perform these checks locally prior to submitting a pull
 - tfsec
 - Markdown Lint
 - Checkov
-- Terratest
+- Terraform test
 
 > :bangbang: The readme.md file will be created after all checks have completed successfuly, it is recommended that you install terraform-docs locally in order to preview your readme.md file prior to publication.
 
@@ -75,18 +75,6 @@ terraform init
 terraform plan -out tf.plan
 terraform show -json tf.plan  > tf.json 
 checkov 
-```
-### Terratest
-
-Include tests to validate your examples/<> root modules, at a minimum. This can be accomplished with usually only slight modifications to the [boilerplate test provided in this template](./test/examples\_basic\_test.go)
-
-```
-# from the root of the repository
-cd test
-go mod init github.com/aws-ia/terraform-project-ephemeral
-go mod tidy
-go install github.com/gruntwork-io/terratest/modules/terraform
-go test -timeout 45m
 ```
 
 ## Documentation

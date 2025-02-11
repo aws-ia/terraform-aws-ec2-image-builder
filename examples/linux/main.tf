@@ -73,23 +73,23 @@ module "ec2-image-builder" {
 resource "aws_kms_key" "imagebuilder_image_recipe_kms_key" {
   description         = "Imagebuilder Image Recipe KMS key"
   enable_key_rotation = true
-  policy              = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Id": "default",
-    "Statement": [
-      {
-        "Sid": "DefaultAllow",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        "Action": "kms:*",
-        "Resource": "*"
-      }
-    ]
-  }
-POLICY
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Id" : "default",
+      "Statement" : [
+        {
+          "Sid" : "DefaultAllow",
+          "Effect" : "Allow",
+          "Principal" : {
+            "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+          },
+          "Action" : "kms:*",
+          "Resource" : "*"
+        }
+      ]
+    }
+  )
 }
 
 resource "aws_s3_object" "upload_scripts" {
@@ -105,23 +105,23 @@ resource "aws_s3_object" "upload_scripts" {
 resource "aws_kms_key" "aws_imagebuilder_component_kms_key" {
   description         = "Imagebuilder Component KMS key"
   enable_key_rotation = true
-  policy              = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Id": "default",
-    "Statement": [
-      {
-        "Sid": "DefaultAllow",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        "Action": "kms:*",
-        "Resource": "*"
-      }
-    ]
-  }
-POLICY
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Id" : "default",
+      "Statement" : [
+        {
+          "Sid" : "DefaultAllow",
+          "Effect" : "Allow",
+          "Principal" : {
+            "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+          },
+          "Action" : "kms:*",
+          "Resource" : "*"
+        }
+      ]
+    }
+  )
 }
 
 resource "aws_imagebuilder_component" "linuxbuild" {
@@ -216,36 +216,36 @@ data "aws_iam_policy_document" "iam_policy_document" {
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.ec2_image_builder_components.id
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
+  policy = jsonencode(
     {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "${data.aws_caller_identity.current.account_id}"
-      },
-      "Action": [ "s3:*" ],
-      "Resource": [
-        "${aws_s3_bucket.ec2_image_builder_components.arn}",
-        "${aws_s3_bucket.ec2_image_builder_components.arn}/*"
-      ]
-    },
-    {
-  "Sid": "Deny non-HTTPS access",
-  "Effect": "Deny",
-  "Principal": "*",
-  "Action": [ "s3:*" ],
-  "Resource": "${aws_s3_bucket.ec2_image_builder_components.arn}/*",
-  "Condition": {
-    "Bool": {
-      "aws:SecureTransport": "false"
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Principal" : {
+            "AWS" : "${data.aws_caller_identity.current.account_id}"
+          },
+          "Action" : ["s3:*"],
+          "Resource" : [
+            "${aws_s3_bucket.ec2_image_builder_components.arn}",
+            "${aws_s3_bucket.ec2_image_builder_components.arn}/*"
+          ]
+        },
+        {
+          "Sid" : "Deny non-HTTPS access",
+          "Effect" : "Deny",
+          "Principal" : "*",
+          "Action" : ["s3:*"],
+          "Resource" : "${aws_s3_bucket.ec2_image_builder_components.arn}/*",
+          "Condition" : {
+            "Bool" : {
+              "aws:SecureTransport" : "false"
             }
-      }
-  }
-  ]
-}
-EOF
+          }
+        }
+      ]
+    }
+  )
 }
 
 resource "random_uuid" "random_uuid" {
@@ -254,23 +254,23 @@ resource "random_uuid" "random_uuid" {
 resource "aws_kms_key" "aws_s3_bucket_kms_key" {
   description         = "S3 Bucket KMS key"
   enable_key_rotation = true
-  policy              = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Id": "default",
-    "Statement": [
-      {
-        "Sid": "DefaultAllow",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        "Action": "kms:*",
-        "Resource": "*"
-      }
-    ]
-  }
-POLICY
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Id" : "default",
+      "Statement" : [
+        {
+          "Sid" : "DefaultAllow",
+          "Effect" : "Allow",
+          "Principal" : {
+            "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+          },
+          "Action" : "kms:*",
+          "Resource" : "*"
+        }
+      ]
+    }
+  )
 }
 
 #tfsec:ignore:aws-s3-enable-bucket-logging
@@ -325,23 +325,23 @@ resource "aws_s3_bucket_public_access_block" "block_public_access" {
 resource "aws_kms_key" "aws_ssm_parameter_kms_key" {
   description         = "SSM Parameter KMS key"
   enable_key_rotation = true
-  policy              = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Id": "default",
-    "Statement": [
-      {
-        "Sid": "DefaultAllow",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
-        },
-        "Action": "kms:*",
-        "Resource": "*"
-      }
-    ]
-  }
-POLICY
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Id" : "default",
+      "Statement" : [
+        {
+          "Sid" : "DefaultAllow",
+          "Effect" : "Allow",
+          "Principal" : {
+            "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+          },
+          "Action" : "kms:*",
+          "Resource" : "*"
+        }
+      ]
+    }
+  )
 }
 
 resource "tls_private_key" "imagebuilder" {
