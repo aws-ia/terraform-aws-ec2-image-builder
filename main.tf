@@ -205,10 +205,10 @@ resource "aws_imagebuilder_image_pipeline" "imagebuilder_image_pipeline" {
   infrastructure_configuration_arn = aws_imagebuilder_infrastructure_configuration.imagebuilder_infrastructure_configuration[count.index].arn
   distribution_configuration_arn   = try(aws_imagebuilder_distribution_configuration.imagebuilder_distribution_configuration[count.index].arn, null)
   dynamic "schedule" {
-    for_each = try(var.schedule_expression, tomap({}))
+    for_each = try(var.schedule_expression, [])
     content {
-      schedule_expression                = schedule.key
-      pipeline_execution_start_condition = schedule.value
+      schedule_expression                = schedule.value.scheduleExpression
+      pipeline_execution_start_condition = schedule.value.pipeline_execution_start_condition
     }
   }
   name = "${var.name}-pipeline"
