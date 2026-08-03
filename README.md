@@ -92,14 +92,14 @@ Apache-2.0 Licensed. See [LICENSE](https://github.com/aws-ia/terraform-aws-ec2-i
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0.0 |
 
 ## Providers
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
 
 ## Modules
@@ -109,7 +109,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [aws_iam_instance_profile.iam_instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_role.awsserviceroleforimagebuilder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.aws_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
@@ -134,7 +134,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_ami_description"></a> [ami\_description](#input\_ami\_description) | (Required) Choose a description for the AMI | `string` | n/a | yes |
 | <a name="input_ami_name"></a> [ami\_name](#input\_ami\_name) | (Required) Choose a name for the AMI | `string` | n/a | yes |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | (Required) AWS Region to deploy the resources | `string` | n/a | yes |
@@ -150,15 +150,15 @@ No modules.
 | <a name="input_custom_policy_arn"></a> [custom\_policy\_arn](#input\_custom\_policy\_arn) | (Optional) ARN of the custom policy to be attached to the EC2 Instance Profile | `string` | `null` | no |
 | <a name="input_imagebuilder_image_recipe_kms_key_arn"></a> [imagebuilder\_image\_recipe\_kms\_key\_arn](#input\_imagebuilder\_image\_recipe\_kms\_key\_arn) | (Required) KMS Key ARN(CMK) for encrypting Imagebuilder Image Recipe Block Device Mapping | `string` | `null` | no |
 | <a name="input_instance_key_pair"></a> [instance\_key\_pair](#input\_instance\_key\_pair) | (Optional) EC2 key pair to add to the default user on the builder(In case existent EC2 Key Pair is provided) | `string` | `null` | no |
-| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | (Optional) Instance type for the EC2 Image Builder Instances. <br/>Will be set by default to c5.large. Please check the AWS Pricing for more information about the instance types. | `list(string)` | <pre>[<br/>  "c5.large"<br/>]</pre> | no |
-| <a name="input_managed_components"></a> [managed\_components](#input\_managed\_components) | (Optional) Specify the name and version of the AWS managed components that are going to be part of the image recipe | <pre>list(object({<br/>    name    = string,<br/>    version = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | (Optional) Instance type for the EC2 Image Builder Instances. <br>Will be set by default to c5.large. Please check the AWS Pricing for more information about the instance types. | `list(string)` | <pre>[<br>  "c5.large"<br>]</pre> | no |
+| <a name="input_managed_components"></a> [managed\_components](#input\_managed\_components) | (Optional) Specify the name and version of the AWS managed components that are going to be part of the image recipe | <pre>list(object({<br>    name    = string,<br>    version = string<br>  }))</pre> | `[]` | no |
 | <a name="input_organization_arns"></a> [organization\_arns](#input\_organization\_arns) | (Optional) A list of AWS Organizations organization ARNs to share the AMI with. All accounts in the specified organization(s) gain launch permission for the AMI. Must be a full ARN (format: arn:aws:organizations::<management-account-id>:organization/<organization-id>). | `list(string)` | `[]` | no |
 | <a name="input_organizational_unit_arns"></a> [organizational\_unit\_arns](#input\_organizational\_unit\_arns) | (Optional) A list of AWS Organizations organizational unit (OU) ARNs to share the AMI with. All accounts nested under the specified OU(s) gain launch permission for the AMI. Must be full ARNs, not bare OU IDs (format: arn:aws:organizations::<management-account-id>:ou/<organization-id>/<ou-id>) — AWS rejects a bare ID like "ou-1234-5example". | `list(string)` | `[]` | no |
 | <a name="input_recipe_version"></a> [recipe\_version](#input\_recipe\_version) | (Required) The semantic version of the image recipe. This version follows the semantic version syntax. e.g.: 0.0.1 | `string` | `"0.0.1"` | no |
 | <a name="input_recipe_volume_size"></a> [recipe\_volume\_size](#input\_recipe\_volume\_size) | (Optional) Volume Size of Imagebuilder Image Recipe Block Device Mapping | `string` | `100` | no |
 | <a name="input_recipe_volume_type"></a> [recipe\_volume\_type](#input\_recipe\_volume\_type) | (Optional) Volume Type of Imagebuilder Image Recipe Block Device Mapping | `string` | `"gp3"` | no |
 | <a name="input_s3_bucket_name"></a> [s3\_bucket\_name](#input\_s3\_bucket\_name) | (Required) S3 Bucket Name which will store EC2 Image Builder TOE logs and is storing the build/test YAML files | `string` | `""` | no |
-| <a name="input_schedule_expression"></a> [schedule\_expression](#input\_schedule\_expression) | "(Optional) pipeline\_execution\_start\_condition = The condition configures when the pipeline should trigger a new image build. <br/>Valid Values: EXPRESSION\_MATCH\_ONLY \| EXPRESSION\_MATCH\_AND\_DEPENDENCY\_UPDATES\_AVAILABLE<br/>scheduleExpression = The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition.<br/>e.g.:  "cron(0 0 * * ? *)" | <pre>list(object({<br/>    pipeline_execution_start_condition = string,<br/>    scheduleExpression                 = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_schedule_expression"></a> [schedule\_expression](#input\_schedule\_expression) | "(Optional) pipeline\_execution\_start\_condition = The condition configures when the pipeline should trigger a new image build. <br>Valid Values: EXPRESSION\_MATCH\_ONLY \| EXPRESSION\_MATCH\_AND\_DEPENDENCY\_UPDATES\_AVAILABLE<br>scheduleExpression = The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition.<br>e.g.:  "cron(0 0 * * ? *)" | <pre>list(object({<br>    pipeline_execution_start_condition = string,<br>    scheduleExpression                 = string<br>  }))</pre> | `[]` | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | (Optional) Security group IDs for EC2 Image Builder instances(In case existent Security Group is provided) | `list(string)` | `[]` | no |
 | <a name="input_source_ami_owner"></a> [source\_ami\_owner](#input\_source\_ami\_owner) | (Optional) Owner of the AMI , default: amazon | `string` | `"amazon"` | no |
 | <a name="input_source_cidr"></a> [source\_cidr](#input\_source\_cidr) | (Required) Source CIDR block which will be allowed to RDP or SSH to EC2 Image Builder Instances | `list(string)` | `[]` | no |
@@ -171,6 +171,6 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_ami"></a> [ami](#output\_ami) | AMI created by Terraform |
 <!-- END_TF_DOCS -->
