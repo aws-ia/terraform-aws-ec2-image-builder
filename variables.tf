@@ -84,6 +84,18 @@ variable "target_account_ids" {
   default     = []
 }
 
+variable "organizational_unit_arns" {
+  description = "(Optional) A list of AWS Organizations organizational unit (OU) ARNs to share the AMI with. All accounts nested under the specified OU(s) gain launch permission for the AMI. Must be full ARNs, not bare OU IDs (format: arn:aws:organizations::<management-account-id>:ou/<organization-id>/<ou-id>) — AWS rejects a bare ID like \"ou-1234-5example\"."
+  type        = list(string)
+  default     = []
+}
+
+variable "organization_arns" {
+  description = "(Optional) A list of AWS Organizations organization ARNs to share the AMI with. All accounts in the specified organization(s) gain launch permission for the AMI. Must be a full ARN (format: arn:aws:organizations::<management-account-id>:organization/<organization-id>)."
+  type        = list(string)
+  default     = []
+}
+
 variable "ami_regions_kms_key" {
   description = "(Optional) A list of AWS Regions to share the AMI with and also target KMS Key in each region"
   type        = map(string)

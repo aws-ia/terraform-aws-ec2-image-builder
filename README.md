@@ -57,6 +57,20 @@ module "ec2-image-builder" {
     "<ENTER TARGET AWS ACCOUNT IDS.>"
   ]
 
+  # (Optional) Share the AMI with an entire AWS Organizations OU or
+  # organization instead of (or in addition to) specific accounts above.
+  # Accounts nested under the specified OU automatically gain launch
+  # permission. Must be full ARNs — a bare OU/org ID (e.g. "ou-1234-5example")
+  # is rejected by the AWS API. Format:
+  #   OU:           arn:aws:organizations::<management-account-id>:ou/<organization-id>/<ou-id>
+  #   Organization: arn:aws:organizations::<management-account-id>:organization/<organization-id>
+  organizational_unit_arns = [
+    "arn:aws:organizations::111122223333:ou/o-abc1234567/ou-ab12-3cd4efgh"
+  ]
+  organization_arns = [
+    "arn:aws:organizations::111122223333:organization/o-abc1234567"
+  ]
+
   ami_regions_kms_key = {
     "<ENTER AWS REGIONS TO SHARE THE AMI WITH>" = "<ENTER KMS KEYs TO ENCRYPT AMIs ON THE TARGET REGION>",
     "us-west-2"      = "arn:aws:kms:us-west-2:XXXXXXX:key/mrk-XXXXXX",
@@ -138,6 +152,8 @@ No modules.
 | <a name="input_instance_key_pair"></a> [instance\_key\_pair](#input\_instance\_key\_pair) | (Optional) EC2 key pair to add to the default user on the builder(In case existent EC2 Key Pair is provided) | `string` | `null` | no |
 | <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | (Optional) Instance type for the EC2 Image Builder Instances. <br>Will be set by default to c5.large. Please check the AWS Pricing for more information about the instance types. | `list(string)` | <pre>[<br>  "c5.large"<br>]</pre> | no |
 | <a name="input_managed_components"></a> [managed\_components](#input\_managed\_components) | (Optional) Specify the name and version of the AWS managed components that are going to be part of the image recipe | <pre>list(object({<br>    name    = string,<br>    version = string<br>  }))</pre> | `[]` | no |
+| <a name="input_organization_arns"></a> [organization\_arns](#input\_organization\_arns) | (Optional) A list of AWS Organizations organization ARNs to share the AMI with. All accounts in the specified organization(s) gain launch permission for the AMI. Must be a full ARN (format: arn:aws:organizations::<management-account-id>:organization/<organization-id>). | `list(string)` | `[]` | no |
+| <a name="input_organizational_unit_arns"></a> [organizational\_unit\_arns](#input\_organizational\_unit\_arns) | (Optional) A list of AWS Organizations organizational unit (OU) ARNs to share the AMI with. All accounts nested under the specified OU(s) gain launch permission for the AMI. Must be full ARNs, not bare OU IDs (format: arn:aws:organizations::<management-account-id>:ou/<organization-id>/<ou-id>) — AWS rejects a bare ID like "ou-1234-5example". | `list(string)` | `[]` | no |
 | <a name="input_recipe_version"></a> [recipe\_version](#input\_recipe\_version) | (Required) The semantic version of the image recipe. This version follows the semantic version syntax. e.g.: 0.0.1 | `string` | `"0.0.1"` | no |
 | <a name="input_recipe_volume_size"></a> [recipe\_volume\_size](#input\_recipe\_volume\_size) | (Optional) Volume Size of Imagebuilder Image Recipe Block Device Mapping | `string` | `100` | no |
 | <a name="input_recipe_volume_type"></a> [recipe\_volume\_type](#input\_recipe\_volume\_type) | (Optional) Volume Type of Imagebuilder Image Recipe Block Device Mapping | `string` | `"gp3"` | no |
