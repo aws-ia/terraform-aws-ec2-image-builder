@@ -295,7 +295,9 @@ resource "aws_imagebuilder_distribution_configuration" "imagebuilder_distributio
         description        = var.ami_description
         target_account_ids = var.target_account_ids
         launch_permission {
-          user_ids = var.target_account_ids
+          user_ids                 = var.target_account_ids
+          organizational_unit_arns = var.organizational_unit_arns
+          organization_arns        = var.organization_arns
         }
 
         ami_tags = var.tags
